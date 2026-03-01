@@ -1,72 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>acba.am</groupId>
-    <artifactId>HomeWork6</artifactId>
+    <groupId>ru.otus</groupId>
+    <artifactId>HomeWork7</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <selenium.version>4.36.0</selenium.version>
-        <junit.api.version>5.10.2</junit.api.version>
-        <junit.engine.version>5.10.2</junit.engine.version>
-        <junit.platform.version>1.10.2</junit.platform.version>
-        <webdriver.version>6.3.2</webdriver.version>
-        <guice.version>7.0.0</guice.version>
-        <assertj.version>3.27.3</assertj.version>
-        <cucumber.version>7.20.1</cucumber.version>
-        <junit-platform-suit.version>6.0.1</junit-platform-suit.version>
-        <junit-platform-suite-api.version>6.0.1</junit-platform-suite-api.version>
-        <cucumber-guice.version>7.20.1</cucumber-guice.version>
-        <assertj.version>3.27.6</assertj.version>
-        <maven.version>3.13.0</maven.version>
-        <maven.compiler.target>17</maven.compiler.target>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.surefire.version>3.1.2</maven.surefire.version>
-        <jsoup.version>1.17.2</jsoup.version>
-        <cucumber.version>7.20.1</cucumber.version>
-        <cucumber.java.version>7.20.1</cucumber.java.version>
         <junit.jupiter.version>5.10.2</junit.jupiter.version>
-        <junit.platform.version>1.10.2</junit.platform.version>
-        <playwright.version>1.58.0</playwright.version>
-
-        <base.url>
-            news.mail.ru
-        </base.url>
-
-        <browser.name>chrome</browser.name>
+        <selenide.appium.version>7.14.0</selenide.appium.version>
+        <guice.version>7.0.0</guice.version>
+        <lombok.version>1.18.42</lombok.version>
+        <maven.compiler.plugin.version>3.14.1</maven.compiler.plugin.version>
+        <maven.surefire.version>3.1.2</maven.surefire.version>
+        <checkstyle.plugin.version>3.6.0</checkstyle.plugin.version>
+        <spotless.plugin.version>2.43.0</spotless.plugin.version>
+        <spotbugs.plugin.version>4.9.3.0</spotbugs.plugin.version>
+        <base.url>news.mail.ru</base.url>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-java</artifactId>
-            <version>${selenium.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.api.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.bonigarcia</groupId>
-            <artifactId>webdrivermanager</artifactId>
-            <version>${webdriver.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit.engine.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
-            <version>${junit.platform.version}</version>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.google.inject</groupId>
@@ -74,65 +38,29 @@
             <version>${guice.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>${assertj.version}</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
-            <version>${jsoup.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-guice</artifactId>
-            <version>${cucumber-guice.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-junit-platform-engine</artifactId>
-            <version>${cucumber.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${junit.jupiter.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>${cucumber.java.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-suite</artifactId>
-            <version>${junit.platform.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.microsoft.playwright</groupId>
-            <artifactId>playwright</artifactId>
-            <version>${playwright.version}</version>
+            <groupId>com.codeborne</groupId>
+            <artifactId>selenide-appium</artifactId>
+            <version>${selenide.appium.version}</version>
         </dependency>
     </dependencies>
-
-    <profiles>
-        <profile>
-            <id>prod</id>
-            <properties>
-                <base.url>${base.url}</base.url>
-            </properties>
-        </profile>
-    </profiles>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.version}</version>
+                <version>${maven.compiler.plugin.version}</version>
+
                 <configuration>
-                    <target>${maven.compiler.target}</target>
-                    <source>${maven.compiler.source}</source>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>
             <plugin>
@@ -140,44 +68,41 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${maven.surefire.version}</version>
                 <configuration>
-                    <testFailureIgnore>true</testFailureIgnore>
                     <systemPropertyVariables>
                         <base.url>${base.url}</base.url>
-                        <browser.name>${browser.name}</browser.name>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>${checkstyle.plugin.version}</version>
                 <configuration>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                    <configLocation>${project.basedir}/src/main/resources/checkstyle.xml</configLocation>
+                    <configLocation>
+                        ${project.basedir}/src/main/resources/checkstyle.xml
+                    </configLocation>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>com.diffplug.spotless</groupId>
                 <artifactId>spotless-maven-plugin</artifactId>
-                <version>2.43.0</version>
+                <version>${spotless.plugin.version}</version>
                 <configuration>
                     <java>
                         <googleJavaFormat/>
                     </java>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
-                <version>4.9.3.0</version>
-
+                <version>${spotbugs.plugin.version}</version>
                 <configuration>
                     <effort>Max</effort>
                     <threshold>Low</threshold>
                     <failOnError>false</failOnError>
                     <includeTests>true</includeTests>
-                    <omitVisitors>FindDeadLocalStore</omitVisitors>
                 </configuration>
 
                 <executions>
@@ -189,7 +114,9 @@
                         </goals>
                     </execution>
                 </executions>
+
             </plugin>
         </plugins>
     </build>
+
 </project>
