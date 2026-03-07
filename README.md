@@ -1,49 +1,127 @@
-# UI Automated Testing Project for OTUS
+# ДЗ #7: Мобильное тестирование
 
-This repository contains UI automation tests for the **OTUS learning platform** (https://otus.ru)  
-using **Selenium WebDriver** with **Java**, **Cucumber BDD**, and **Page Object Model** with **Google Guice DI**. :contentReference[oaicite:1]{index=1}
+## Цель работы
 
----
+Развернуть Android эмуляторы с использованием Docker Compose и написать
+автотесты мобильного приложения с использованием **Selenide** и
+**Appium**.
 
-## 📌 Overview
+Мобильное приложение тестируется с помощью UI автотестов.
 
-This project automates end-to-end UI scenarios, including:
+------------------------------------------------------------------------
 
-* Searching for courses by exact name  
-* Finding earliest and latest courses  
-* Filtering and comparing preparatory courses (cheapest & most expensive) 
+# Используемые технологии
 
-The automation framework is built using BDD principles with Cucumber feature files written in Gherkin. :contentReference[oaicite:2]{index=2}
+-   Java
+-   Selenide
+-   Appium
+-   Docker Compose
+-   Android Emulator
+-   WireMock
+-   JUnit 5
+-   Maven
 
----
+------------------------------------------------------------------------
 
-## 🚀 Technology Stack
+# Архитектура проекта
 
-The project uses the following technologies:
+В проекте используется **Page Object Model** и разделение компонентов
+приложения.
 
-| Category | Technology |
-|----------|------------|
-| Language | Java 24 |
-| Test Framework | JUnit Jupiter 5 |
-| BDD | Cucumber |
-| Browser Automation | Selenium WebDriver 4 |
-| Dependency Injection | Google Guice |
-| HTML Parsing | Jsoup |
-| Build Tool | Maven |
-| Additional | WebDriverManager, AssertJ | :contentReference[oaicite:3]{index=3}
+Структура проекта:
 
----
+    ru.otus
+    │
+    ├── components       (UI компоненты)
+    ├── emulator         (конфигурация эмулятора)
+    ├── extensions       (JUnit extensions)
+    ├── factory          (инициализация драйвера)
+    ├── pageobject       (базовые page object)
+    ├── pages            (страницы приложения)
 
-## 📁 Project Structure
-project/
-├── src/
-│ ├── main/java/
-│ │ ├── pages/ # Page Object classes
-│ │ ├── extensions/ # JUnit extensions
-│ │ ├── annotations/ # Custom annotations
-│ │ ├── dto/ # Data Transfer Objects
-│ │ └── waiters/ # Custom wait utilities
-│ └── test/java/
-│ └── main / # Cucumber step definitions & runners
-├── pom.xml
-└── README.md
+Тесты находятся в:
+
+    src/test/java
+
+Реализованные тесты:
+
+-   **CreateWishTest** --- создание списка желаний
+-   **WishListEditTest** --- редактирование списка
+-   **CreateGiftTest** --- добавление подарка в список
+
+------------------------------------------------------------------------
+
+# Запуск инфраструктуры
+
+Для запуска Android эмуляторов используется **Docker Compose**.
+
+### Запуск
+
+``` bash
+docker compose up -d
+```
+
+После запуска контейнера будет поднят:
+
+-   Android emulator
+-   Appium server
+-   WireMock
+
+------------------------------------------------------------------------
+
+# Установка приложения
+
+APK файл находится в:
+
+    wiremock/__files/wishlist.apk
+
+Приложение автоматически скачивается и устанавливается на эмулятор.
+
+------------------------------------------------------------------------
+
+# Запуск тестов
+
+Тесты запускаются через Maven:
+
+``` bash
+mvn test
+```
+
+или через IDE (IntelliJ IDEA).
+
+------------------------------------------------------------------------
+
+# Логи эмулятора
+
+Логи Android эмулятора собираются с использованием **Logcat**.
+
+Файл логов находится в корне проекта:
+
+    logcat.txt
+
+------------------------------------------------------------------------
+
+# Реализованные проверки
+
+В тестах реализованы следующие сценарии:
+
+### 1. Создание списка желаний
+
+-   Авторизация пользователя
+-   Создание нового списка
+-   Проверка появления списка
+
+### 2. Редактирование списка
+
+-   Открытие существующего списка
+-   Изменение данных
+-   Проверка обновленных значений
+
+### 3. Создание подарка
+
+-   Добавление нового подарка
+-   Ввод названия, цены и описания
+-   Проверка появления подарка в списке
+
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
