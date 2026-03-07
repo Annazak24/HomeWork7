@@ -22,14 +22,13 @@ public class AndroidExtension
         AfterTestExecutionCallback,
         AfterEachCallback {
 
-
     private final Injector injector =
             Guice.createInjector(new AndroidDriverModule());
 
     @Override
     public void postProcessTestInstance(Object testInstance,
                                         ExtensionContext context) {
-        injector.injectMembers(this);
+        injector.injectMembers(testInstance);;
     }
 
     @Override
@@ -41,7 +40,11 @@ public class AndroidExtension
 
     @Override
     public void afterTestExecution(ExtensionContext context) {
-
+        try {
+            Runtime.getRuntime().exec("cmd /c adb logcat -d > logcat.txt");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -50,4 +53,3 @@ public class AndroidExtension
         injector.getInstance(AndroidDriverFactory.class).quit(driver);
     }
 }
-

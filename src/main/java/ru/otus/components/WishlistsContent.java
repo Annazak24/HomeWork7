@@ -23,7 +23,7 @@ public class WishlistsContent extends AbsComponent<WishlistsContent> {
     public void assertSizeEqualTo(int expected) {
         items.shouldHave(
                 size(expected)
-                        .because("Неожидаемое количество списков желаний")
+                        .because("Wrong size")
         );
     }
 }

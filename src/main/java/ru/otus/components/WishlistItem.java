@@ -26,21 +26,21 @@ public class WishlistItem extends AbsComponent<WishlistItem> {
     public void assertTitleEqualsTo(String value) {
         title.shouldHave(
                 text(value)
-                        .because("Заголовок списка желаний не совпадает с ожидаемым")
+                        .because("Wrong Title")
         );
     }
 
     public void assertSubtitleEqualsTo(String value) {
         subtitle.shouldHave(
                 text(value)
-                        .because("Подзаголовок списка желаний не совпадает с ожидаемым")
+                        .because("Wrong Subtitle")
         );
     }
 
     public void tapEdit() {
         editButton
                 .shouldBe(
-                        visible.because("Кнопка редактирования списка желаний не видна на экране")
+                        visible.because("'Edit' button can't be found")
                 )
                 .click();
     }
