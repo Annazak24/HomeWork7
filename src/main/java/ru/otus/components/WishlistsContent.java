@@ -12,6 +12,7 @@ public class WishlistsContent extends AbsComponent<WishlistsContent> {
             root.$$(id("ru.otus.wishlist:id/wishlist_item"))
                     .as("Списки желаний");
 
+
     public WishlistsContent(SelenideElement root) {
         super(root);
     }
@@ -21,9 +22,17 @@ public class WishlistsContent extends AbsComponent<WishlistsContent> {
     }
 
     public void assertSizeEqualTo(int expected) {
-        items.shouldHave(
-                size(expected)
-                        .because("Wrong size")
-        );
+        items.shouldHave(size(expected)
+                        .because("Wrong size"));
+    }
+
+    public int getWishesSize() {
+        return items.size();
+    }
+
+    public void tapWishlist(int index) {
+        root.$$(id("ru.otus.wishlist:id/wishlist_item"))
+                .get(index)
+                .click();
     }
 }

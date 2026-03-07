@@ -2,7 +2,7 @@ import com.google.inject.Inject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import ru.otus.extensions.AndroidExtension;
-import ru.otus.pages.EditWishlistPage;
+import ru.otus.pages.CreateEditWishlistPage;
 import ru.otus.pages.LoginPage;
 import ru.otus.pages.MyWishlistsPage;
 
@@ -16,27 +16,25 @@ public class WishListEditTest {
     private MyWishlistsPage myWishlistsPage;
 
     @Inject
-    private EditWishlistPage editWishlistPage;
+    private CreateEditWishlistPage createEditWishlistPage;
 
     @Test
             public void editWishlist(){
     loginPage.login("tonyp90", "12345678");
 
-        String wishlistTitle = "Ждем следующий год";
-        String newWishlistDescription = "остлалось 300 дней";
+        String wishlistTitle = "Trip";
+        String newWishlistDescription = "Europe";
+
 
         myWishlistsPage
-                .assertNumberOfWishlists(1)
-                .assertWishlistTitle(1, wishlistTitle)
-                .assertWishlistSubtitle(1, "остлалось 300 дней")
                 .tapEditWishlist(1);
 
-        editWishlistPage
-                .assertEditWishlistTitle("Изменить список желаний")
-                .editDescription(newWishlistDescription);
+        createEditWishlistPage
+                .enterDescription(newWishlistDescription)
+                .enterTitle(wishlistTitle)
+                .setSaveButton();
 
         myWishlistsPage
-                .assertNumberOfWishlists(1)
                 .assertWishlistTitle(1, wishlistTitle)
                 .assertWishlistSubtitle(1, newWishlistDescription);
     }

@@ -26,15 +26,15 @@ public class LoginPage extends AbsBasePage {
     public void login(String username, String password) {
 
         usernameInputField
-                .shouldBe(visible.because("Поле ввода имени пользователя не видно на экране"))
+                .shouldBe(visible.because("'UserName' can't be found "))
                 .sendKeys(username);
 
         passwordInputField
-                .shouldBe(visible.because("Поле ввода пароля не видно на экране"))
+                .shouldBe(visible.because("'Password' can't be found"))
                 .sendKeys(password);
 
         logInButton
-                .shouldBe(visible.because("Кнопка входа не видна на экране"))
+                .shouldBe(visible.because("'Login' botton can't be found"))
                 .click();
     }
 }

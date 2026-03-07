@@ -1,5 +1,6 @@
 package ru.otus.pages;
 
+import com.codeborne.selenide.SelenideElement;
 import com.google.inject.Singleton;
 import ru.otus.components.WishlistItem;
 import ru.otus.components.WishlistsContent;
@@ -13,14 +14,16 @@ public class MyWishlistsPage extends AbsBasePage {
 
     private final WishlistsContent wishlistsContent =
             new WishlistsContent(
-                    $(id("ru.otus.wishlist:id/wishlists"))
-            );
+                    $(id("ru.otus.wishlist:id/wishlists")));
+
+    private final SelenideElement addButton =
+            $(id("ru.otus.wishlist:id/add_button"))
+                    .as("Кнопка добавления списка");
 
     public MyWishlistsPage assertNumberOfWishlists(int value) {
         wishlistsContent
                 .shouldBe(
-                        visible.because("Список списков желаний не виден на экране")
-                )
+                        visible.because("Список списков желаний не виден на экране"))
                 .assertSizeEqualTo(value);
         return this;
     }
@@ -43,9 +46,21 @@ public class MyWishlistsPage extends AbsBasePage {
         return wishlistsContent.get(index)
                 .shouldBe(
                         visible.because(
-                                "Список желаний номер %d не виден на экране"
-                                        .formatted(index)
-                        )
-                );
+                                "The wish can't be found"
+                                        .formatted(index)));
+    }
+
+    public void tapAddWishlist() {
+        addButton
+                .shouldBe(visible.because("'Add' botton can't be found"))
+                .click();
+    }
+
+    public int getWishlistsCount() {
+        return wishlistsContent.getWishesSize();
+    }
+
+    public MyWishlistsPage openWishList(int index){
+        wishlistsContent.tapWishlist(index);
     }
 }

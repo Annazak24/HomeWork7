@@ -26,8 +26,7 @@ public class AndroidExtension
             Guice.createInjector(new AndroidDriverModule());
 
     @Override
-    public void postProcessTestInstance(Object testInstance,
-                                        ExtensionContext context) {
+    public void postProcessTestInstance(Object testInstance, ExtensionContext context) {
         injector.injectMembers(testInstance);;
     }
 

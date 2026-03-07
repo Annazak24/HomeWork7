@@ -16,8 +16,7 @@ public class EmulatorProvider {
             new ArrayBlockingQueue<>(
                     Emulator.values().length,
                     false,
-                    Arrays.asList(Emulator.values())
-            );
+                    Arrays.asList(Emulator.values()));
 
     private final ThreadLocal<Emulator> currentEmulators = new ThreadLocal<>();
 
