@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
-import lombok.SneakyThrows;
-
 
 @Singleton
 public class EmulatorProvider {
@@ -20,20 +18,28 @@ public class EmulatorProvider {
 
     private final ThreadLocal<Emulator> currentEmulators = new ThreadLocal<>();
 
-    @SneakyThrows
     public Emulator takeAndGet() {
-        Emulator emulator = emulators.poll(2, TimeUnit.MINUTES);
-        currentEmulators.set(emulator);
-        return emulator;
+        try {
+            Emulator emulator = emulators.poll(2, TimeUnit.MINUTES);
+            currentEmulators.set(emulator);
+            return emulator;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Failed to get emulator from queue", e);
+        }
     }
 
     public Emulator get() {
         return currentEmulators.get();
     }
 
-    @SneakyThrows
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public void putBack() {
-        emulators.offer(get(), 2, TimeUnit.MINUTES);
+        try {
+            emulators.offer(get(), 2, TimeUnit.MINUTES);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Failed to return emulator to queue", e);
+        }
     }
 }

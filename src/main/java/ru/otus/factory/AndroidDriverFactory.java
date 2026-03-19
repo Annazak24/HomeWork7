@@ -3,35 +3,43 @@ package ru.otus.factory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import io.appium.java_client.android.AndroidDriver;
-import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import ru.otus.emulator.Emulator;
 import ru.otus.emulator.EmulatorProvider;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 
 @Singleton
-@AllArgsConstructor(onConstructor_ = @Inject)
 public class AndroidDriverFactory {
 
-    private EmulatorProvider emulatorProvider;
-    private Capabilities capabilities;
+    private final EmulatorProvider emulatorProvider;
+    private final Capabilities capabilities;
 
-    @SneakyThrows
+    @Inject
+    public AndroidDriverFactory(EmulatorProvider emulatorProvider, Capabilities capabilities) {
+        this.emulatorProvider = emulatorProvider;
+        this.capabilities = capabilities;
+    }
+
     public WebDriver create() {
         Emulator emulator = emulatorProvider.takeAndGet();
 
-        AndroidDriver driver =
-                new AndroidDriver(
-                        new URL("http://127.0.0.1:%d".formatted(emulator.getPort())),
-                        capabilities);
+        try {
+            AndroidDriver driver =
+                    new AndroidDriver(
+                            new URL("http://127.0.0.1:%d".formatted(emulator.getPort())),
+                            capabilities);
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        return driver;
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+            return driver;
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Invalid Appium server URL", e);
+        }
     }
+
     public void quit(WebDriver driver) {
         emulatorProvider.putBack();
         driver.quit();

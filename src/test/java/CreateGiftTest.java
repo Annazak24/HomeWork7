@@ -1,4 +1,5 @@
 import com.google.inject.Inject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import ru.otus.extensions.AndroidExtension;
@@ -43,9 +44,13 @@ public class CreateGiftTest {
                 .enterDescription(giftDescription)
                 .setSaveButton();
 
-
         giftPage
                 .assertGiftTitle(1, giftName)
                 .assertGiftSubtitle(1, giftDescription);
+    }
+
+    @AfterEach
+    public void cleanup(){
+
     }
 }

@@ -1,6 +1,6 @@
 package ru.otus.pages;
 
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.appium.SelenideAppiumElement;
 import com.google.inject.Singleton;
 
 import static com.codeborne.selenide.Condition.visible;
@@ -11,15 +11,15 @@ import static io.appium.java_client.AppiumBy.id;
 @Singleton
 public class LoginPage extends AbsBasePage {
 
-    private final SelenideElement usernameInputField =
+    private final SelenideAppiumElement usernameInputField =
             $(id("ru.otus.wishlist:id/username_text_input"))
                     .as("Поле ввода имени пользователя");
 
-    private final SelenideElement passwordInputField =
+    private final SelenideAppiumElement passwordInputField =
             $(id("ru.otus.wishlist:id/password_text_input"))
                     .as("Поле ввода пароля");
 
-    private final SelenideElement logInButton =
+    private final SelenideAppiumElement logInButton =
             $(id("ru.otus.wishlist:id/log_in_button"))
                     .as("Кнопка входа");
 

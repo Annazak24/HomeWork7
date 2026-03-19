@@ -1,4 +1,5 @@
 import com.google.inject.Inject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import ru.otus.extensions.AndroidExtension;
@@ -20,7 +21,7 @@ public class WishListEditTest {
 
     @Test
             public void editWishlist(){
-    loginPage.login("tonyp90", "12345678");
+    loginPage.login("Annaanna", "12345678");
 
         String wishlistTitle = "Trip";
         String newWishlistDescription = "Europe";
@@ -37,5 +38,9 @@ public class WishListEditTest {
         myWishlistsPage
                 .assertWishlistTitle(1, wishlistTitle)
                 .assertWishlistSubtitle(1, newWishlistDescription);
+    }
+    @AfterEach
+    public void cleanup(){
+
     }
 }

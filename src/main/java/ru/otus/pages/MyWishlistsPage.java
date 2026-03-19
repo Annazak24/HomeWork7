@@ -1,6 +1,6 @@
 package ru.otus.pages;
 
-import com.codeborne.selenide.SelenideElement;
+import com.codeborne.selenide.appium.SelenideAppiumElement;
 import com.google.inject.Singleton;
 import ru.otus.components.WishlistItem;
 import ru.otus.components.WishlistsContent;
@@ -16,7 +16,7 @@ public class MyWishlistsPage extends AbsBasePage {
             new WishlistsContent(
                     $(id("ru.otus.wishlist:id/wishlists")));
 
-    private final SelenideElement addButton =
+    private final SelenideAppiumElement addButton =
             $(id("ru.otus.wishlist:id/add_button"))
                     .as("Кнопка добавления списка");
 
@@ -60,7 +60,8 @@ public class MyWishlistsPage extends AbsBasePage {
         return wishlistsContent.getWishesSize();
     }
 
-    public MyWishlistsPage openWishList(int index){
+    public MyWishlistsPage openWishList(int index) {
         wishlistsContent.tapWishlist(index);
+        return this;
     }
 }

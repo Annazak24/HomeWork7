@@ -1,9 +1,9 @@
 
 import com.google.inject.Inject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import ru.otus.components.WishlistsContent;
 import ru.otus.extensions.AndroidExtension;
 import ru.otus.pages.CreateEditWishlistPage;
 import ru.otus.pages.LoginPage;
@@ -27,7 +27,7 @@ public class CreateWishTest {
         @Test
         public void createGiftTest() {
 
-            loginPage.login("tonyp90", "12345678");
+            loginPage.login("Anna", "12345678");
 
             String title= "iPhone";
             String description= "The latest";
@@ -45,5 +45,9 @@ public class CreateWishTest {
                     .assertNumberOfWishlists(beforeCount + 1)
                     .assertWishlistTitle(beforeCount + 1, title);
         }
+    }
+    @AfterEach
+    public void cleanup(){
+
     }
 }
