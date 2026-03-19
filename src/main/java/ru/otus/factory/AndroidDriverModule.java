@@ -8,7 +8,7 @@ import io.appium.java_client.remote.AutomationName;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 
-@SuppressWarnings("unuded")
+@SuppressWarnings("unused")
 public class AndroidDriverModule extends AbstractModule {
 
     @Provides
@@ -24,6 +24,7 @@ public class AndroidDriverModule extends AbstractModule {
         options.setPlatformName("Android");
         options.setApp("http://wiremock:8080/wishlist.apk");
         options.fullReset();
+        options.setCapability("clearDeviceLogsOnStart", true);
         return options;
     }
 }

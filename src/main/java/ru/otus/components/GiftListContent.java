@@ -5,12 +5,11 @@ import com.codeborne.selenide.SelenideElement;
 
 import static io.appium.java_client.AppiumBy.id;
 
-public class GiftListContent extends AbsComponent<GiftItem> {
+public class GiftListContent extends AbsComponent<GiftListContent> {
 
     private final ElementsCollection items =
             root.$$(id("ru.otus.wishlist:id/gift_item"))
                     .as("Списки желаний");
-
 
     public GiftListContent(SelenideElement root) {
         super(root);
@@ -23,5 +22,4 @@ public class GiftListContent extends AbsComponent<GiftItem> {
     public int getWishesSize() {
         return items.size();
     }
-
 }

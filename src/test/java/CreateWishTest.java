@@ -1,7 +1,5 @@
-
 import com.google.inject.Inject;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import ru.otus.extensions.AndroidExtension;
@@ -9,45 +7,41 @@ import ru.otus.pages.CreateEditWishlistPage;
 import ru.otus.pages.LoginPage;
 import ru.otus.pages.MyWishlistsPage;
 
+@ExtendWith(AndroidExtension.class)
 public class CreateWishTest {
-    @Nested
-    @ExtendWith(AndroidExtension.class)
-    class GiftCreateTest {
 
-        @Inject
-        private LoginPage loginPage;
+    @Inject
+    private LoginPage loginPage;
 
-        @Inject
-        private MyWishlistsPage myWishlistsPage;
+    @Inject
+    private MyWishlistsPage myWishlistsPage;
 
-        @Inject
-        private CreateEditWishlistPage createEditWishlistPage;
+    @Inject
+    private CreateEditWishlistPage createEditWishlistPage;
 
+    @Test
+    public void createGiftTest() {
+        loginPage.login("Anna", "12345678");
 
-        @Test
-        public void createGiftTest() {
+        String title = "iPhone";
+        String description = "The latest";
 
-            loginPage.login("Anna", "12345678");
+        int beforeCount = myWishlistsPage.getWishlistsCount();
 
-            String title= "iPhone";
-            String description= "The latest";
+        myWishlistsPage.tapAddWishlist();
 
-            int beforeCount = myWishlistsPage.getWishlistsCount();
+        createEditWishlistPage
+                .enterTitle(title)
+                .enterDescription(description)
+                .setSaveButton();
 
-            myWishlistsPage.tapAddWishlist();
-
-            createEditWishlistPage
-                    .enterTitle(title)
-                    .enterDescription(description)
-                    .setSaveButton();
-
-            myWishlistsPage
-                    .assertNumberOfWishlists(beforeCount + 1)
-                    .assertWishlistTitle(beforeCount + 1, title);
-        }
+        myWishlistsPage
+                .assertNumberOfWishlists(beforeCount + 1)
+                .assertWishlistTitle(beforeCount + 1, title);
     }
+
     @AfterEach
-    public void cleanup(){
+    public void cleanup() {
 
     }
 }

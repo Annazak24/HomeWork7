@@ -31,17 +31,24 @@ public class AndroidDriverFactory {
             AndroidDriver driver =
                     new AndroidDriver(
                             new URL("http://127.0.0.1:%d".formatted(emulator.getPort())),
-                            capabilities);
+                            capabilities
+                    );
 
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
             return driver;
         } catch (MalformedURLException e) {
+            emulatorProvider.putBack();
             throw new RuntimeException("Invalid Appium server URL", e);
         }
     }
 
     public void quit(WebDriver driver) {
-        emulatorProvider.putBack();
-        driver.quit();
+        try {
+            if (driver != null) {
+                driver.quit();
+            }
+        } finally {
+            emulatorProvider.putBack();
+        }
     }
 }
