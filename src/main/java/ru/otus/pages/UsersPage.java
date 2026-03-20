@@ -9,6 +9,9 @@ import static io.appium.java_client.AppiumBy.id;
 
 @Singleton
 public class UsersPage extends AbsBasePage {
+    private final SelenideAppiumElement usersMenu =
+            $(id("ru.otus.wishlist:id/users_menu"))
+            .as("Кнопка меню пользователей");
 
     private final SelenideAppiumElement filterButton =
             $(id("ru.otus.wishlist:id/filter"))
@@ -51,6 +54,12 @@ public class UsersPage extends AbsBasePage {
     public UsersPage clickUserItem() {
         userItem
                 .shouldBe(visible.because("Пользователь не найден или не виден"))
+                .click();
+        return this;
+    }
+
+    public UsersPage clickUsersMenuButton() {
+                usersMenu.shouldBe(visible.because("Кнопка меню не видна"))
                 .click();
         return this;
     }

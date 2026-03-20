@@ -19,29 +19,31 @@ public class CreateWishTest {
     @Inject
     private CreateEditWishlistPage createEditWishlistPage;
 
+    String wishTitle = "Wish2026";
+    String description = "Wish";
+
     @Test
     public void createGiftTest() {
         loginPage.login("Anna", "12345678");
-
-        String title = "iPhone";
-        String description = "The latest";
 
         int beforeCount = myWishlistsPage.getWishlistsCount();
 
         myWishlistsPage.tapAddWishlist();
 
         createEditWishlistPage
-                .enterTitle(title)
+                .enterTitle(wishTitle)
                 .enterDescription(description)
                 .setSaveButton();
 
         myWishlistsPage
                 .assertNumberOfWishlists(beforeCount + 1)
-                .assertWishlistTitle(beforeCount + 1, title);
+                .assertWishlistTitle(beforeCount + 1, wishTitle);
     }
 
     @AfterEach
     public void cleanup() {
-
+        myWishlistsPage
+                .clickDeleteButtonByTitle(wishTitle)
+                .clickOkButton();
     }
 }

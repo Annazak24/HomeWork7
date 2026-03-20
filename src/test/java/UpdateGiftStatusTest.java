@@ -1,6 +1,5 @@
 import com.google.inject.Inject;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import ru.otus.extensions.AndroidExtension;
@@ -26,8 +25,10 @@ public class UpdateGiftStatusTest {
 
     @Test
     public void updateStatusTest() {
+
         loginPage.login("Annaanna", "12345678");
         usersPage
+                .clickUsersMenuButton()
                 .clickFilterButton()
                 .enterUserName("Anna")
                 .clickSearchButton()
@@ -36,12 +37,16 @@ public class UpdateGiftStatusTest {
                 .clickWishlistByTitle("77");
         giftsPage
                 .getReservedCheckedValue();
+
         giftsPage
-                .assertStatusChangedToast("Статус подарка изменен.");
+                .tapStatusChangeButton()
+                .chaeckReservedStatus("true");
 
     }
     @AfterEach
     public void cleanup(){
-
+        giftsPage
+                .tapStatusChangeButton()
+                .chaeckReservedStatus("false");
     }
 }

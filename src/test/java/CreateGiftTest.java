@@ -23,17 +23,17 @@ public class CreateGiftTest {
     @Inject
     private CreateGiftPage createGiftPage;
 
+    String giftName = "Gift2026";
+    String giftDescription = "Big gift 2026";
+    int price = 800;
+
     @Test
     public void createGift() {
-
-        String giftName = "Gift";
-        String giftDescription = "Big gift";
-         int price =800;
 
         loginPage.login("tonyp90", "12345678");
 
         myWishlistsPage
-                .openWishList(1);
+                .openWishList(0);
 
         giftPage
                 .tapAddGiftBotton();
@@ -50,7 +50,9 @@ public class CreateGiftTest {
     }
 
     @AfterEach
-    public void cleanup(){
-
+    public void cleanup() {
+        giftPage
+                .clickDeleteButtonByTitle(giftName)
+                .clickOkButton();
     }
 }

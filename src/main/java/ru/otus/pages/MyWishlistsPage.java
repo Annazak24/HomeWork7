@@ -1,7 +1,9 @@
 package ru.otus.pages;
 
+import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.appium.SelenideAppiumElement;
 import com.google.inject.Singleton;
+import io.appium.java_client.AppiumBy;
 import ru.otus.components.WishlistItem;
 import ru.otus.components.WishlistsContent;
 
@@ -20,6 +22,10 @@ public class MyWishlistsPage extends AbsBasePage {
             $(id("ru.otus.wishlist:id/add_button"))
                     .as("Кнопка добавления списка");
 
+    private final SelenideElement okButton =
+            $(id("android:id/button1"))
+                    .as("ok botton");
+
     public MyWishlistsPage assertNumberOfWishlists(int value) {
         wishlistsContent
                 .shouldBe(
@@ -33,10 +39,6 @@ public class MyWishlistsPage extends AbsBasePage {
         return this;
     }
 
-    public MyWishlistsPage assertWishlistSubtitle(int index, String value) {
-        getWishlistItem(index).assertSubtitleEqualsTo(value);
-        return this;
-    }
 
     public void tapEditWishlist(int index) {
         getWishlistItem(index).tapEdit();
@@ -62,6 +64,19 @@ public class MyWishlistsPage extends AbsBasePage {
 
     public MyWishlistsPage openWishList(int index) {
         wishlistsContent.tapWishlist(index);
+        return this;
+    }
+
+    public MyWishlistsPage clickDeleteButtonByTitle(String title) {
+        SelenideElement row = $(AppiumBy.xpath(
+                "//android.view.ViewGroup[@resource-id='ru.otus.wishlist:id/wishlist_item'][.//android.widget.TextView[@resource-id='ru.otus.wishlist:id/title' and @text='" + title + "']]"
+        ));
+
+        row.$(AppiumBy.id("ru.otus.wishlist:id/delete_button")).click();
+        return this;
+    }
+    public MyWishlistsPage clickOkButton() {
+        okButton.click();
         return this;
     }
 }
