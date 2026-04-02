@@ -1,16 +1,10 @@
 package ru.otus.components;
 
-import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
-
 import static com.codeborne.selenide.CollectionCondition.size;
-import static io.appium.java_client.AppiumBy.id;
+
 
 public class WishlistsContent extends AbsComponent<WishlistsContent> {
-
-    private final ElementsCollection items =
-            root.$$(id("ru.otus.wishlist:id/wishlist_item"))
-                    .as("Списки желаний");
 
 
     public WishlistsContent(SelenideElement root) {
@@ -30,9 +24,5 @@ public class WishlistsContent extends AbsComponent<WishlistsContent> {
         return items.size();
     }
 
-    public void tapWishlist(int index) {
-        root.$$(id("ru.otus.wishlist:id/wishlist_item"))
-                .get(index)
-                .click();
-    }
+
 }

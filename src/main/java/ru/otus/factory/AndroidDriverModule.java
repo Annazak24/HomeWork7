@@ -24,7 +24,7 @@ public class AndroidDriverModule extends AbstractModule {
         options.setPlatformName("Android");
         options.setApp("http://wiremock:8080/wishlist.apk");
         options.fullReset();
-        options.setCapability("clearDeviceLogsOnStart", true);
+        options.clearDeviceLogsOnStart();
         return options;
     }
 }

@@ -1,6 +1,7 @@
 package ru.otus.emulator;
 
 import com.google.inject.Singleton;
+import ru.otus.exceptions.EmulatorProviderException;
 
 import java.util.Arrays;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -24,8 +25,7 @@ public class EmulatorProvider {
             currentEmulators.set(emulator);
             return emulator;
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new RuntimeException("Failed to get emulator from queue", e);
+            throw new EmulatorProviderException("Failed to get emulator from queue", e);
         }
     }
 
@@ -38,8 +38,7 @@ public class EmulatorProvider {
         try {
             emulators.offer(get(), 2, TimeUnit.MINUTES);
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new RuntimeException("Failed to return emulator to queue", e);
+            throw new EmulatorProviderException("Failed to get emulator from queue", e);
         }
     }
 }

@@ -19,11 +19,11 @@ public class CreateWishTest {
     @Inject
     private CreateEditWishlistPage createEditWishlistPage;
 
-    String wishTitle = "Wish2026";
-    String description = "Wish";
+    private String wishTitle = "Wish2026";
+    private String description = "Wish";
 
     @Test
-    public void createGiftTest() {
+    public void createWishTest() {
         loginPage.login("Anna", "12345678");
 
         int beforeCount = myWishlistsPage.getWishlistsCount();

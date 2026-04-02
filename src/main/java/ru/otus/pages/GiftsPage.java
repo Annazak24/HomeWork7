@@ -1,7 +1,6 @@
 package ru.otus.pages;
 
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.appium.SelenideAppiumElement;
 import com.google.inject.Singleton;
 import io.appium.java_client.AppiumBy;
 import ru.otus.components.GiftItem;
@@ -9,6 +8,7 @@ import ru.otus.components.GiftListContent;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.appium.SelenideAppium.$;
+import static com.codeborne.selenide.appium.SelenideAppium.$$;
 import static io.appium.java_client.AppiumBy.id;
 
 
@@ -20,11 +20,11 @@ public class GiftsPage extends AbsBasePage {
                     $(id("ru.otus.wishlist:id/gifts"))
             );
 
-    private final SelenideAppiumElement addButton =
+    private final SelenideElement addButton =
             $(id("ru.otus.wishlist:id/add_button"))
                     .as("Кнопка добавления списка");
 
-    private final SelenideAppiumElement reservedToggle =
+    private final SelenideElement reservedToggle =
             $(id("ru.otus.wishlist:id/reserved"))
                     .as("Переключатель статуса подарка");
 
@@ -80,12 +80,13 @@ public class GiftsPage extends AbsBasePage {
     }
 
     public GiftsPage clickDeleteButtonByTitle(String title) {
-        SelenideElement row = $(AppiumBy.xpath(
-                "//android.view.ViewGroup[@resource-id='ru.otus.wishlist:id/wishlist_item'][.//android.widget.TextView[@resource-id='ru.otus.wishlist:id/title' and @text='" + title + "']]"
-        ));
-
-        row.$(AppiumBy.id("ru.otus.wishlist:id/delete_button")).click();
-        return this;
+        for (SelenideElement row : $$(AppiumBy.id("ru.otus.wishlist:id/wishlist_item"))) {
+            if (title.equals(row.$(AppiumBy.id("ru.otus.wishlist:id/title")).getText())) {
+                row.$(AppiumBy.id("ru.otus.wishlist:id/delete_button")).click();
+                return this;
+            }
+        }
+        throw new IllegalArgumentException("Gift with title not found: " + title);
     }
 
     public GiftsPage clickOkButton() {

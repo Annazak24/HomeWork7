@@ -2,6 +2,7 @@ import com.google.inject.Inject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import ru.otus.components.BottomMenuComponent;
 import ru.otus.extensions.AndroidExtension;
 import ru.otus.pages.*;
 
@@ -22,17 +23,18 @@ public class CreateGiftTest {
 
     @Inject
     private CreateGiftPage createGiftPage;
+    private BottomMenuComponent bottomMenuComponent;
 
-    String giftName = "Gift2026";
-    String giftDescription = "Big gift 2026";
-    int price = 800;
+    private String giftName = "Gift2026";
+    private String giftDescription = "Big gift 2026";
+    private int price = 800;
 
     @Test
-    public void createGift() {
+    public void createGiftTest() {
 
         loginPage.login("tonyp90", "12345678");
 
-        myWishlistsPage
+        bottomMenuComponent
                 .openWishList(0);
 
         giftPage

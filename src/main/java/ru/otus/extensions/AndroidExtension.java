@@ -7,28 +7,23 @@ import com.google.inject.Injector;
 import io.appium.java_client.android.AndroidDriver;
 import org.jspecify.annotations.NullMarked;
 import org.junit.jupiter.api.extension.AfterEachCallback;
+import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.TestInstancePostProcessor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.logging.LogEntries;
-import org.openqa.selenium.logging.LogEntry;
 import ru.otus.factory.AndroidDriverFactory;
 import ru.otus.factory.AndroidDriverModule;
-
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import ru.otus.utils.LogcatManager;
 
 @NullMarked
 public class AndroidExtension
         implements TestInstancePostProcessor,
         BeforeEachCallback,
+        AfterTestExecutionCallback,
         AfterEachCallback {
 
-    private final Injector injector =
-            Guice.createInjector(new AndroidDriverModule());
+    private final Injector injector = Guice.createInjector(new AndroidDriverModule());
 
     @Override
     public void postProcessTestInstance(Object testInstance, ExtensionContext context) {
@@ -43,43 +38,14 @@ public class AndroidExtension
     }
 
     @Override
-    public void afterEach(ExtensionContext context) {
-        WebDriver driver = WebDriverRunner.getWebDriver();
-
-        try {
-            saveLogcat(driver, context);
-        } finally {
-            injector.getInstance(AndroidDriverFactory.class).quit(driver);
-        }
+    public void afterTestExecution(ExtensionContext context) {
+        AndroidDriver driver = (AndroidDriver) WebDriverRunner.getWebDriver();
+        LogcatManager.saveLogcat(driver, context);
     }
 
-    private void saveLogcat(WebDriver driver, ExtensionContext context) {
-        if (!(driver instanceof AndroidDriver androidDriver)) {
-            return;
-        }
-
-        try {
-            LogEntries logEntries = androidDriver.manage().logs().get("logcat");
-
-            Path logsDir = Path.of("logs");
-            Files.createDirectories(logsDir);
-
-            String testName = context.getRequiredTestMethod().getName();
-            Path logFile = logsDir.resolve(testName + ".log");
-
-            StringBuilder content = new StringBuilder();
-            for (LogEntry entry : logEntries) {
-                content.append(entry.getTimestamp())
-                        .append(" ")
-                        .append(entry.getLevel())
-                        .append(" ")
-                        .append(entry.getMessage())
-                        .append(System.lineSeparator());
-            }
-
-            Files.writeString(logFile, content.toString(), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            throw new RuntimeException("Не удалось сохранить logcat", e);
-        }
+    @Override
+    public void afterEach(ExtensionContext context) {
+        WebDriver driver = WebDriverRunner.getWebDriver();
+        injector.getInstance(AndroidDriverFactory.class).quit(driver);
     }
 }

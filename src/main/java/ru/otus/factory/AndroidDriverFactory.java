@@ -7,6 +7,7 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import ru.otus.emulator.Emulator;
 import ru.otus.emulator.EmulatorProvider;
+import ru.otus.exceptions.DriverInitializationException;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -38,7 +39,7 @@ public class AndroidDriverFactory {
             return driver;
         } catch (MalformedURLException e) {
             emulatorProvider.putBack();
-            throw new RuntimeException("Invalid Appium server URL", e);
+            throw new DriverInitializationException("Invalid Appium server URL", e);
         }
     }
 

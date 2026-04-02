@@ -1,7 +1,6 @@
 package ru.otus.pages;
 
 import com.codeborne.selenide.SelenideElement;
-import com.codeborne.selenide.appium.SelenideAppiumElement;
 import com.google.inject.Singleton;
 import io.appium.java_client.AppiumBy;
 import ru.otus.components.WishlistItem;
@@ -9,6 +8,7 @@ import ru.otus.components.WishlistsContent;
 
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.appium.SelenideAppium.$;
+import static com.codeborne.selenide.appium.SelenideAppium.$$;
 import static io.appium.java_client.AppiumBy.id;
 
 @Singleton
@@ -18,7 +18,7 @@ public class MyWishlistsPage extends AbsBasePage {
             new WishlistsContent(
                     $(id("ru.otus.wishlist:id/wishlists")));
 
-    private final SelenideAppiumElement addButton =
+    private final SelenideElement addButton =
             $(id("ru.otus.wishlist:id/add_button"))
                     .as("Кнопка добавления списка");
 
@@ -62,19 +62,19 @@ public class MyWishlistsPage extends AbsBasePage {
         return wishlistsContent.getWishesSize();
     }
 
-    public MyWishlistsPage openWishList(int index) {
-        wishlistsContent.tapWishlist(index);
-        return this;
-    }
+
 
     public MyWishlistsPage clickDeleteButtonByTitle(String title) {
-        SelenideElement row = $(AppiumBy.xpath(
-                "//android.view.ViewGroup[@resource-id='ru.otus.wishlist:id/wishlist_item'][.//android.widget.TextView[@resource-id='ru.otus.wishlist:id/title' and @text='" + title + "']]"
-        ));
+        for (SelenideElement row : $$(AppiumBy.id("ru.otus.wishlist:id/wishlist_item"))) {
+            if (title.equals(row.$(AppiumBy.id("ru.otus.wishlist:id/title")).getText())) {
+                row.$(AppiumBy.id("ru.otus.wishlist:id/delete_button")).click();
+                return this;
+            }
+        }
 
-        row.$(AppiumBy.id("ru.otus.wishlist:id/delete_button")).click();
-        return this;
+        throw new IllegalArgumentException("Wishlist with title not found: " + title);
     }
+
     public MyWishlistsPage clickOkButton() {
         okButton.click();
         return this;

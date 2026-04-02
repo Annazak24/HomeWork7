@@ -1,6 +1,6 @@
 package ru.otus.pages;
 
-import com.codeborne.selenide.appium.SelenideAppiumElement;
+import com.codeborne.selenide.SelenideElement;
 import com.google.inject.Singleton;
 
 import static com.codeborne.selenide.Condition.visible;
@@ -10,19 +10,19 @@ import static io.appium.java_client.AppiumBy.id;
 @Singleton
 public class CreateGiftPage extends AbsBasePage {
 
-    private final SelenideAppiumElement titleInputField =
+    private final SelenideElement titleInputField =
             $(id("ru.otus.wishlist:id/name_input"))
                     .as("Заголовок формы редактирования списка желаний");
 
-    private final SelenideAppiumElement descriptionInputField =
+    private final SelenideElement descriptionInputField =
             $(id("ru.otus.wishlist:id/description_input"))
                     .as("Поле ввода подзаголовка списка желаний");
 
-    private final SelenideAppiumElement priceInputField =
+    private final SelenideElement priceInputField =
             $(id("ru.otus.wishlist:id/price_input"))
                     .as("Поле ввода подзаголовка списка желаний");
 
-    private final SelenideAppiumElement saveButton =
+    private final SelenideElement saveButton =
             $(id("ru.otus.wishlist:id/save_button"))
                     .as("Кнопка сохранения списка желаний");
 

@@ -1,17 +1,24 @@
 package ru.otus.pages;
 
-import com.codeborne.selenide.appium.SelenideAppiumElement;
+import com.codeborne.selenide.SelenideElement;
 import com.google.inject.Singleton;
+import io.appium.java_client.AppiumBy;
 
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.appium.SelenideAppium.$;
-import static org.openqa.selenium.By.xpath;
+import static com.codeborne.selenide.appium.SelenideAppium.$$;
 
 @Singleton
 public class WishListPage extends AbsBasePage {
-    private SelenideAppiumElement wishlistByTitle(String title) {
-        return $(xpath("//*[@resource-id='ru.otus.wishlist:id/title' and @text='" + title + "']"))
-                .as("Список желаний с названием: " + title);
+    private SelenideElement wishlistByTitle(String title) {
+        for (SelenideElement row : $$(AppiumBy.id("ru.otus.wishlist:id/wishlist_item"))) {
+            String actualTitle = row.$(AppiumBy.id("ru.otus.wishlist:id/title")).getText();
+
+            if (title.equals(actualTitle)) {
+                return row.as("Список желаний с названием: " + title);
+            }
+        }
+
+        throw new IllegalArgumentException("Wishlist with title not found: " + title);
     }
 
     public WishListPage clickWishlistByTitle(String title) {
