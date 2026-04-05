@@ -6,11 +6,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import io.appium.java_client.android.AndroidDriver;
 import org.jspecify.annotations.NullMarked;
-import org.junit.jupiter.api.extension.AfterEachCallback;
-import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.TestInstancePostProcessor;
+import org.junit.jupiter.api.extension.*;
 import org.openqa.selenium.WebDriver;
 import ru.otus.factory.AndroidDriverFactory;
 import ru.otus.factory.AndroidDriverModule;
@@ -18,34 +14,34 @@ import ru.otus.utils.LogcatManager;
 
 @NullMarked
 public class AndroidExtension
-        implements TestInstancePostProcessor,
-        BeforeEachCallback,
-        AfterTestExecutionCallback,
-        AfterEachCallback {
+      implements TestInstancePostProcessor,
+      BeforeEachCallback,
+      AfterTestExecutionCallback,
+      AfterEachCallback {
 
-    private final Injector injector = Guice.createInjector(new AndroidDriverModule());
+   private final Injector injector = Guice.createInjector(new AndroidDriverModule());
 
-    @Override
-    public void postProcessTestInstance(Object testInstance, ExtensionContext context) {
-        injector.injectMembers(testInstance);
-    }
+   @Override
+   public void postProcessTestInstance(Object testInstance, ExtensionContext context) {
+      injector.injectMembers(testInstance);
+   }
 
-    @Override
-    public void beforeEach(ExtensionContext context) {
-        WebDriver driver = injector.getInstance(WebDriver.class);
-        WebDriverRunner.setWebDriver(driver);
-        Selenide.open();
-    }
+   @Override
+   public void beforeEach(ExtensionContext context) {
+      WebDriver driver = injector.getInstance(WebDriver.class);
+      WebDriverRunner.setWebDriver(driver);
+      Selenide.open();
+   }
 
-    @Override
-    public void afterTestExecution(ExtensionContext context) {
-        AndroidDriver driver = (AndroidDriver) WebDriverRunner.getWebDriver();
-        LogcatManager.saveLogcat(driver, context);
-    }
+   @Override
+   public void afterTestExecution(ExtensionContext context) {
+      AndroidDriver driver = (AndroidDriver) WebDriverRunner.getWebDriver();
+      LogcatManager.saveLogcat(driver, context);
+   }
 
-    @Override
-    public void afterEach(ExtensionContext context) {
-        WebDriver driver = WebDriverRunner.getWebDriver();
-        injector.getInstance(AndroidDriverFactory.class).quit(driver);
-    }
+   @Override
+   public void afterEach(ExtensionContext context) {
+      WebDriver driver = WebDriverRunner.getWebDriver();
+      injector.getInstance(AndroidDriverFactory.class).quit(driver);
+   }
 }

@@ -5,17 +5,18 @@ import com.codeborne.selenide.WebElementCondition;
 import ru.otus.pageobject.AbsPageObject;
 
 @SuppressWarnings("unchecked")
+
 public abstract class AbsComponent<T extends AbsComponent<T>>
-        extends AbsPageObject {
+      extends AbsPageObject {
 
-    protected final SelenideElement root;
+   public final SelenideElement root;
 
-    public AbsComponent(SelenideElement root) {
-        this.root = root;
-    }
+   public AbsComponent(SelenideElement root) {
+      this.root = root;
+   }
 
-    public T shouldBe(WebElementCondition... conditions) {
-        root.shouldBe(conditions);
-        return (T) this;
-    }
+   public T shouldBe(WebElementCondition... conditions) {
+      root.shouldBe(conditions);
+      return (T) this;
+   }
 }

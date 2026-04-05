@@ -2,15 +2,15 @@ package ru.otus.emulator;
 
 public enum Emulator {
 
-    ANDROID_12(4723);
+   ANDROID_12(4723);
 
-    private final int port;
+   private final int port;
 
-    Emulator(int port) {
-        this.port = port;
-    }
+   Emulator(int port) {
+      this.port = port;
+   }
 
-    public int getPort() {
-        return port;
-    }
+   public int getPort() {
+      return port;
+   }
 }
