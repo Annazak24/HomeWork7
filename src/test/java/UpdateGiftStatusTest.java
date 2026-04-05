@@ -1,11 +1,13 @@
 import com.google.inject.Inject;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import ru.otus.components.BottomMenuComponent;
+import ru.otus.components.FilterComponent;
 import ru.otus.components.HeaderComponent;
 import ru.otus.extensions.AndroidExtension;
-import ru.otus.pages.*;
+import ru.otus.pages.GiftsPage;
+import ru.otus.pages.LoginPage;
+import ru.otus.pages.UsersPage;
+import ru.otus.pages.WishListPage;
 import ru.otus.utils.DatabaseUtils;
 
 @ExtendWith(AndroidExtension.class)
@@ -23,27 +25,31 @@ public class UpdateGiftStatusTest {
    @Inject
    private GiftsPage giftsPage;
 
-   private final DatabaseUtils databaseUtils = new DatabaseUtils();
+   private FilterComponent filterComponent;
+
    private HeaderComponent headerComponent;
-   private FilterPage filterPage;
+
+   private final DatabaseUtils databaseUtils = new DatabaseUtils();
 
    @Test
    public void updateStatusTest() {
-      databaseUtils.prepareGiftReservedStatus("Annaanna","77", false);
+      databaseUtils.prepareGiftReservedStatus("Anna","The Eiffel tower", false);
 
       loginPage
             .login("Annaanna", "12345678");
       usersPage
             .bottomMenu().clickUsersMenuButton();;
-      headerComponent
+      usersPage
+            .header()
             .clickFilterButton();
-      filterPage
+      usersPage
+            .filter()
             .enterUserName("Anna")
             .clickSearchButton();
       usersPage
             .clickUserItem();
       wishListPage
-            .clickWishlistByTitle("77");
+            .clickWishlistByTitle("Paris");
       giftsPage
             .getReservedCheckedValue();
       giftsPage

@@ -2,7 +2,10 @@ import com.google.inject.Inject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import ru.otus.extensions.AndroidExtension;
-import ru.otus.pages.*;
+import ru.otus.pages.CreateGiftPage;
+import ru.otus.pages.GiftsPage;
+import ru.otus.pages.LoginPage;
+import ru.otus.pages.MyWishlistsPage;
 import ru.otus.utils.DatabaseUtils;
 
 @ExtendWith(AndroidExtension.class)

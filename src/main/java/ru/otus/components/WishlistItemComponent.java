@@ -1,10 +1,10 @@
 package ru.otus.components;
 
-import com.codeborne.selenide.SelenideElement;
-
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static io.appium.java_client.AppiumBy.id;
+
+import com.codeborne.selenide.SelenideElement;
 
 public class WishlistItemComponent extends AbsComponent<WishlistItemComponent> {
 

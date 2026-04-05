@@ -1,15 +1,15 @@
 package ru.otus.pages;
 
-import com.codeborne.selenide.SelenideElement;
-import com.google.inject.Singleton;
-import io.appium.java_client.AppiumBy;
-import ru.otus.components.WishlistItemComponent;
-
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.appium.SelenideAppium.$;
 import static com.codeborne.selenide.appium.SelenideAppium.$$;
 import static io.appium.java_client.AppiumBy.id;
+
+import com.codeborne.selenide.SelenideElement;
+import com.google.inject.Singleton;
+import io.appium.java_client.AppiumBy;
+import ru.otus.components.WishlistItemComponent;
 
 @Singleton
 public class MyWishlistsPage extends AbsBasePage {
