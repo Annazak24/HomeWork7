@@ -20,6 +20,7 @@ public class AndroidExtension
       AfterEachCallback {
 
    private final Injector injector = Guice.createInjector(new AndroidDriverModule());
+   private final LogcatManager logcatManager = injector.getInstance(LogcatManager.class);
 
    @Override
    public void postProcessTestInstance(Object testInstance, ExtensionContext context) {
@@ -36,7 +37,7 @@ public class AndroidExtension
    @Override
    public void afterTestExecution(ExtensionContext context) {
       AndroidDriver driver = (AndroidDriver) WebDriverRunner.getWebDriver();
-      LogcatManager.saveLogcat(driver, context);
+      logcatManager.saveLogcat(driver, context);
    }
 
    @Override

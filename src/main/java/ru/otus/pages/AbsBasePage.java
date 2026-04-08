@@ -3,28 +3,43 @@ package ru.otus.pages;
 import static com.codeborne.selenide.appium.SelenideAppium.$;
 import static org.openqa.selenium.By.id;
 
-import ru.otus.components.BottomMenuComponent;
-import ru.otus.components.FilterComponent;
+import com.codeborne.selenide.SelenideElement;
+import ru.otus.components.ButtomMenuComponent;
 import ru.otus.components.HeaderComponent;
 import ru.otus.pageobject.AbsPageObject;
 
 public abstract class AbsBasePage extends AbsPageObject {
 
-   public BottomMenuComponent bottomMenu() {
-      return new BottomMenuComponent(
-            $(id("ru.otus.wishlist:id/bottom_navigation"))
-      );
+   private final SelenideElement buttomNavigation =
+         $(id("ru.otus.wishlist:id/bottom_navigation"))
+               .as("Нижнее меню навигации");
+
+   private final SelenideElement topAppBarLayout =
+         $(id("ru.otus.wishlist:id/top_app_bar_layout"))
+               .as("Верхняя панель страницы");
+
+   private final SelenideElement usersFilterButtomSheet =
+         $(id("ru.otus.wishlist:id/users_filter_bottom_sheet"))
+               .as("Панель фильтра пользователей");
+
+   private final ButtomMenuComponent buttomMenu =
+         new ButtomMenuComponent(buttomNavigation);
+
+   private final HeaderComponent header =
+         new HeaderComponent(topAppBarLayout);
+
+   private final FilterPage filter =
+         new FilterPage(usersFilterButtomSheet);
+
+   public ButtomMenuComponent buttomMenu() {
+      return buttomMenu;
    }
 
    public HeaderComponent header() {
-      return new HeaderComponent(
-            $(id("ru.otus.wishlist:id/top_app_bar_layout"))
-      );
+      return header;
    }
 
-   public FilterComponent filter() {
-      return new FilterComponent(
-            $(id("ru.otus.wishlist:id/users_filter_bottom_sheet"))
-      );
+   public FilterPage filter() {
+      return filter;
    }
 }

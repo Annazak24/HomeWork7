@@ -1,8 +1,6 @@
 import com.google.inject.Inject;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import ru.otus.components.FilterComponent;
-import ru.otus.components.HeaderComponent;
 import ru.otus.extensions.AndroidExtension;
 import ru.otus.pages.GiftsPage;
 import ru.otus.pages.LoginPage;
@@ -25,26 +23,23 @@ public class UpdateGiftStatusTest {
    @Inject
    private GiftsPage giftsPage;
 
-   private FilterComponent filterComponent;
-
-   private HeaderComponent headerComponent;
 
    private final DatabaseUtils databaseUtils = new DatabaseUtils();
 
    @Test
    public void updateStatusTest() {
-      databaseUtils.prepareGiftReservedStatus("Anna","The Eiffel tower", false);
+      databaseUtils.prepareGiftReservedStatus("Anna1","Paris", false);
 
       loginPage
             .login("Annaanna", "12345678");
       usersPage
-            .bottomMenu().clickUsersMenuButton();;
+            .buttomMenu().clickUsersMenuButton();;
       usersPage
             .header()
             .clickFilterButton();
       usersPage
             .filter()
-            .enterUserName("Anna")
+            .enterUserName("Anna1")
             .clickSearchButton();
       usersPage
             .clickUserItem();

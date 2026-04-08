@@ -5,9 +5,9 @@ import static io.appium.java_client.AppiumBy.id;
 
 import com.codeborne.selenide.SelenideElement;
 
-public class BottomMenuComponent extends AbsComponent<BottomMenuComponent> {
+public class ButtomMenuComponent extends AbsComponent<ButtomMenuComponent> {
 
-   public BottomMenuComponent(SelenideElement root) {
+   public ButtomMenuComponent(SelenideElement root) {
       super(root);
    }
 
@@ -16,7 +16,7 @@ public class BottomMenuComponent extends AbsComponent<BottomMenuComponent> {
                .as("Кнопка меню пользователей");
 
 
-   public BottomMenuComponent clickUsersMenuButton() {
+   public ButtomMenuComponent clickUsersMenuButton() {
       usersMenu.shouldBe(visible.because("Кнопка меню не видна"))
             .click();
       return this;

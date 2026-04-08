@@ -14,9 +14,7 @@ public class GiftItemComponent extends AbsComponent<GiftItemComponent> {
    private final SelenideElement subtitle =
          root.$(id("ru.otus.wishlist:id/subtitle"))
                .as("Подзаголовок подарка");
-   private final SelenideElement deleteButton =
-         root.$(id("ru.otus.wishlist:id/delete_button"))
-               .as("Кнопка удаления подарка");
+
    private final SelenideElement reservationSwitch =
          root.$(id("ru.otus.wishlist:id/reserved_switch"))
                .as("Переключатель статуса резервирования");
@@ -27,20 +25,6 @@ public class GiftItemComponent extends AbsComponent<GiftItemComponent> {
 
    public String getTitle() {
       return title.getText();
-   }
-
-   public GiftItemComponent clickDeleteButton() {
-      deleteButton
-            .shouldBe(visible.because("Кнопка удаления подарка не видна"))
-            .click();
-      return this;
-   }
-
-   public GiftItemComponent clickReservationSwitch() {
-      reservationSwitch
-            .shouldBe(visible.because("Переключатель резервирования не виден"))
-            .click();
-      return this;
    }
 
    public void assertTitleEqualsTo(String value) {

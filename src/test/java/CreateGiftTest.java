@@ -35,11 +35,11 @@ public class CreateGiftTest {
 
       loginPage.login("Spring", "12345678");
       giftPage
-            .bottomMenu();
+            .buttomMenu();
       myWishlistsPage
             .openWishList(0);
       giftPage
-            .tapAddGiftBotton();
+            .tapAddGiftButton();
       createGiftPage
             .enterTitle(giftName)
             .enterPrice(price)

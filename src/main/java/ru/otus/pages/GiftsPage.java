@@ -3,12 +3,11 @@ package ru.otus.pages;
 import static com.codeborne.selenide.Condition.attribute;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.appium.SelenideAppium.$;
-import static com.codeborne.selenide.appium.SelenideAppium.$$;
 import static io.appium.java_client.AppiumBy.id;
 
 import com.codeborne.selenide.SelenideElement;
 import com.google.inject.Singleton;
-import ru.otus.components.BottomMenuComponent;
+import ru.otus.components.ButtomMenuComponent;
 import ru.otus.components.GiftItemComponent;
 import ru.otus.components.GiftListComponent;
 
@@ -18,8 +17,7 @@ public class GiftsPage extends AbsBasePage {
 
    private final GiftListComponent giftListComponent =
          new GiftListComponent(
-               $(id("ru.otus.wishlist:id/gifts"))
-         );
+               $(id("ru.otus.wishlist:id/gifts")));
 
    private final SelenideElement addButton =
          $(id("ru.otus.wishlist:id/add_button"))
@@ -29,19 +27,12 @@ public class GiftsPage extends AbsBasePage {
          $(id("ru.otus.wishlist:id/reserved"))
                .as("Переключатель статуса подарка");
 
-   private final SelenideElement statusChangedToast =
-         $(id("ru.otus.wishlist:id/reserved"))
-               .as("Toast об изменении статуса подарка");
-
-   private final SelenideElement okButton =
-         $(id("android:id/button1"))
-               .as("ok botton");
-
-   private final SelenideElement bottomMenuRoot =
+   private final SelenideElement buttomMenuRoot =
          $(id("ru.otus.wishlist:id/bottom_navigation"))
                .as("Нижнее меню");
 
-   public void tapAddGiftBotton() {
+
+   public void tapAddGiftButton() {
       addButton
             .shouldBe(visible
                   .because("'Add' botton can't be found"))
@@ -77,46 +68,15 @@ public class GiftsPage extends AbsBasePage {
    }
 
    public GiftsPage tapStatusChangeButton() {
-      statusChangedToast
+      reservedToggle
             .shouldBe(visible
                   .because("'Staus change' botton can't be found"))
             .click();
       return this;
    }
 
-   public BottomMenuComponent bottomMenu() {
-      return new BottomMenuComponent(bottomMenuRoot);
-   }
-
-   public GiftsPage clickDeleteButtonByTitle(String title) {
-      for (SelenideElement row : $$(id("ru.otus.wishlist:id/wishlist_item"))) {
-         GiftItemComponent item = new GiftItemComponent(row);
-
-         if (title.equals(item.getTitle())) {
-            item.clickDeleteButton();
-            return this;
-         }
-      }
-
-      throw new IllegalArgumentException("Gift with title not found: " + title);
-   }
-
-   public GiftsPage clickReservationSwitchByTitle(String title) {
-      for (SelenideElement row : $$(id("ru.otus.wishlist:id/wishlist_item"))) {
-         GiftItemComponent item = new GiftItemComponent(row);
-
-         if (title.equals(item.getTitle())) {
-            item.clickReservationSwitch();
-            return this;
-         }
-      }
-
-      throw new IllegalArgumentException("Gift with title not found: " + title);
-   }
-
-   public GiftsPage clickOkButton() {
-      okButton.click();
-      return this;
+   public ButtomMenuComponent buttomMenu() {
+      return new ButtomMenuComponent(buttomMenuRoot);
    }
 }
 

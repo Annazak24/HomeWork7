@@ -1,21 +1,26 @@
 package ru.otus.utils;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import io.appium.java_client.android.AndroidDriver;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
 import ru.otus.exceptions.LogcatManagementException;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public final class LogcatManager {
+@Singleton
+public class LogcatManager {
 
-   private LogcatManager() {
+   @Inject
+   public LogcatManager() {
    }
 
-   public static void saveLogcat(AndroidDriver driver, ExtensionContext context) {
+   public void saveLogcat(AndroidDriver driver, ExtensionContext context) {
       try {
          LogEntries logEntries = driver.manage().logs().get("logcat");
 

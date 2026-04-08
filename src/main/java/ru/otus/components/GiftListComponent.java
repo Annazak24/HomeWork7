@@ -18,8 +18,4 @@ public class GiftListComponent extends AbsComponent<GiftItemComponent> {
    public GiftItemComponent get(int index) {
       return new GiftItemComponent(items.get(index - 1));
    }
-
-   public int getWishesSize() {
-      return items.size();
-   }
 }

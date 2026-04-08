@@ -16,13 +16,6 @@ public class WishlistItemComponent extends AbsComponent<WishlistItemComponent> {
          root.$(id("ru.otus.wishlist:id/subtitle"))
                .as("Подзаголовок списка желаний");
 
-   private final SelenideElement editButton =
-         root.$(id("ru.otus.wishlist:id/edit_button"))
-               .as("Кнопка редактирования списка желаний");
-
-   private final SelenideElement deleteButton =
-         root.$(id("ru.otus.wishlist:id/delete_button"))
-               .as("Кнопка удаления списка желаний");
 
    public WishlistItemComponent(SelenideElement root) {
       super(root);
@@ -44,17 +37,5 @@ public class WishlistItemComponent extends AbsComponent<WishlistItemComponent> {
 
    public String getSubtitle() {
       return subtitle.getText();
-   }
-
-   public WishlistItemComponent tapEdit() {
-      editButton.shouldBe(visible.because("'Edit' button can't be found"))
-            .click();
-      return this;
-   }
-
-   public WishlistItemComponent clickDeleteButton() {
-      deleteButton.shouldBe(visible.because("'Delete' button can't be found"))
-            .click();
-      return this;
    }
 }

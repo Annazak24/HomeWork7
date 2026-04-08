@@ -1,13 +1,13 @@
 package ru.otus.pages;
 
 import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.appium.SelenideAppium.$;
-import static com.codeborne.selenide.appium.SelenideAppium.$$;
+import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Selenide.$$;
 import static io.appium.java_client.AppiumBy.id;
 
+import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import com.google.inject.Singleton;
-import io.appium.java_client.AppiumBy;
 import ru.otus.components.WishlistItemComponent;
 
 @Singleton
@@ -17,9 +17,9 @@ public class MyWishlistsPage extends AbsBasePage {
          $(id("ru.otus.wishlist:id/add_button"))
                .as("Кнопка добавления списка");
 
-   private final SelenideElement okButton =
-         $(id("android:id/button1"))
-               .as("ok button");
+   private final ElementsCollection wishlistItems =
+         $$(id("ru.otus.wishlist:id/wishlist_item"));
+
 
    public MyWishlistsPage assertWishlistTitle(int index, String value) {
       getWishlistItem(index).assertTitleEqualsTo(value);
@@ -32,7 +32,7 @@ public class MyWishlistsPage extends AbsBasePage {
    }
 
    public WishlistItemComponent getWishlistItem(int index) {
-      SelenideElement row = $$(id("ru.otus.wishlist:id/wishlist_item"))
+      SelenideElement row = wishlistItems
             .get(index)
             .shouldBe(visible.because("The wish can't be found: " + index));
 
@@ -45,32 +45,11 @@ public class MyWishlistsPage extends AbsBasePage {
             .click();
    }
 
-   public int getWishlistsCount() {
-      return $$(id("ru.otus.wishlist:id/wishlist_item")).size();
-   }
-
-   public MyWishlistsPage clickDeleteButtonByTitle(String title) {
-      for (SelenideElement row : $$(AppiumBy.id("ru.otus.wishlist:id/wishlist_item"))) {
-         WishlistItemComponent item = new WishlistItemComponent(row);
-
-         if (title.equals(item.getTitle())) {
-            item.clickDeleteButton();
-            return this;
-         }
-      }
-
-      throw new IllegalArgumentException("Wishlist with title not found: " + title);
-   }
-
    public MyWishlistsPage openWishList(int index) {
-      $$(id("ru.otus.wishlist:id/wishlist_item"))
+      wishlistItems
             .get(index)
+            .shouldBe(visible.because("Wishlist item not visible: " + index))
             .click();
-      return this;
-   }
-
-   public MyWishlistsPage clickOkButton() {
-      okButton.click();
       return this;
    }
 }

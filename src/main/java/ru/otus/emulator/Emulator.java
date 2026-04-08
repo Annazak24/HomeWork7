@@ -1,5 +1,8 @@
 package ru.otus.emulator;
 
+import lombok.Getter;
+
+@Getter
 public enum Emulator {
 
    ANDROID_12(4723);
@@ -10,7 +13,4 @@ public enum Emulator {
       this.port = port;
    }
 
-   public int getPort() {
-      return port;
-   }
 }

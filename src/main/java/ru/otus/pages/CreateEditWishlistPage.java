@@ -1,6 +1,5 @@
 package ru.otus.pages;
 
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.appium.SelenideAppium.$;
 import static io.appium.java_client.AppiumBy.id;
@@ -22,13 +21,6 @@ public class CreateEditWishlistPage extends AbsBasePage {
    private final SelenideElement saveButton =
          $(id("ru.otus.wishlist:id/save_button"))
                .as("Кнопка сохранения списка желаний");
-
-   public CreateEditWishlistPage assertEditWishlistTitle(String expected) {
-      titleInputField
-            .shouldBe(visible.because("Заголовок не виден на экране"))
-            .shouldHave(text(expected).because("Неверный текст заголовка"));
-      return this;
-   }
 
    public CreateEditWishlistPage enterDescription(String description) {
       wishlistDescriptionInputField
