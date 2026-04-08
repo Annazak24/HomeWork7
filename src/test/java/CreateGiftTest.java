@@ -31,9 +31,9 @@ public class CreateGiftTest {
    @Test
    public void createGiftTest() {
 
-      databaseUtils.deleteGiftByTitle("tonyp90", "Gift2026");
+      databaseUtils.deleteGiftByTitle("Spring", "Gift2026");
 
-      loginPage.login("tonyp90", "12345678");
+      loginPage.login("Spring", "12345678");
       giftPage
             .bottomMenu();
       myWishlistsPage

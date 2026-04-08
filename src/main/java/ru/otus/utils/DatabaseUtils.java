@@ -49,8 +49,8 @@ public class DatabaseUtils {
       try (Connection conn = DriverManager.getConnection(url, username, password);
             PreparedStatement ps = conn.prepareStatement(sql)) {
 
-         ps.setString(1, giftTitle);
-         ps.setString(2, login);
+         ps.setString(1, login);
+         ps.setString(2, giftTitle);
          ps.executeUpdate();
 
       } catch (SQLException e) {
@@ -60,7 +60,7 @@ public class DatabaseUtils {
    public void deleteWishlistByTitle(String login, String wishlistTitle) {
       String sql = """
             DELETE FROM wishlists
-            WHERE description = ?
+            WHERE title = ?
             AND user_id IN (
                 SELECT id FROM users WHERE username = ?
             )

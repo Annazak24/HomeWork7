@@ -1,6 +1,5 @@
 package ru.otus.pages;
 
-import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.appium.SelenideAppium.$;
 import static com.codeborne.selenide.appium.SelenideAppium.$$;
@@ -21,12 +20,6 @@ public class MyWishlistsPage extends AbsBasePage {
    private final SelenideElement okButton =
          $(id("android:id/button1"))
                .as("ok button");
-
-   public MyWishlistsPage assertNumberOfWishlists(int value) {
-      $$(id("ru.otus.wishlist:id/wishlist_item"))
-            .shouldHave(size(value));
-      return this;
-   }
 
    public MyWishlistsPage assertWishlistTitle(int index, String value) {
       getWishlistItem(index).assertTitleEqualsTo(value);
