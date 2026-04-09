@@ -7,7 +7,6 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.openqa.selenium.logging.LogEntries;
 import org.openqa.selenium.logging.LogEntry;
 import ru.otus.exceptions.LogcatManagementException;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;

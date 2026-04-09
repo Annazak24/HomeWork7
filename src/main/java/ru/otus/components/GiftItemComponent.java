@@ -15,10 +15,6 @@ public class GiftItemComponent extends AbsComponent<GiftItemComponent> {
          root.$(id("ru.otus.wishlist:id/subtitle"))
                .as("Подзаголовок подарка");
 
-   private final SelenideElement reservationSwitch =
-         root.$(id("ru.otus.wishlist:id/reserved_switch"))
-               .as("Переключатель статуса резервирования");
-
    public GiftItemComponent(SelenideElement root) {
       super(root);
    }

@@ -28,7 +28,7 @@ public class DatabaseUtils {
             """;
 
       try (Connection conn = DriverManager.getConnection(url, username, password);
-           PreparedStatement ps = conn.prepareStatement(sql)) {
+            PreparedStatement ps = conn.prepareStatement(sql)) {
 
          ps.setString(1, login);
          ps.setString(2, giftTitle);
@@ -49,7 +49,7 @@ public class DatabaseUtils {
             """;
 
       try (Connection conn = DriverManager.getConnection(url, username, password);
-           PreparedStatement ps = conn.prepareStatement(sql)) {
+            PreparedStatement ps = conn.prepareStatement(sql)) {
 
          ps.setString(1, wishlistTitle);
          ps.setString(2, login);
@@ -72,7 +72,7 @@ public class DatabaseUtils {
             """;
 
       try (Connection conn = DriverManager.getConnection(url, username, password);
-           PreparedStatement ps = conn.prepareStatement(sql)) {
+            PreparedStatement ps = conn.prepareStatement(sql)) {
 
          ps.setBoolean(1, isReserved);
          ps.setString(2, login);
