@@ -2,6 +2,7 @@ pipeline {
     agent {
         docker {
             image 'maven:3.9.4-eclipse-temurin-21'
+            args '--network selenoid1'
         }
     }
 
@@ -18,10 +19,20 @@ pipeline {
 
         stage('Run Tests') {
             steps {
+                sh 'pwd'
+                sh 'git branch --show-current || true'
+                sh 'grep -R "http://android:4723" -n src || true'
+                sh 'curl http://android:4723/status || true'
+                sh 'curl -I http://wiremock:8080/wishlist.apk || true'
+
                 sh 'mvn clean test -Dmaven.test.failure.ignore=true'
+
                 sh 'echo "========================="'
                 sh 'echo "ALLURE DEBUG START"'
                 sh 'echo "========================="'
+                sh 'ls -la || true'
+                sh 'ls -la allure-results || true'
+                sh 'find allure-results -type f || true'
                 sh 'ls -la target || true'
                 sh 'ls -la target/allure-results || true'
                 sh 'find target/allure-results -type f || true'
@@ -34,14 +45,14 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: 'target/allure-results/**', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'allure-results/**', allowEmptyArchive: true
 
             allure([
                 includeProperties: false,
                 jdk: '',
                 properties: [],
                 reportBuildPolicy: 'ALWAYS',
-                results: [[path: 'target/allure-results']]
+                results: [[path: 'allure-results']]
             ])
         }
     }
