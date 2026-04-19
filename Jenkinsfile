@@ -23,9 +23,15 @@ pipeline {
                 sh 'git branch --show-current || true'
                 sh 'grep -R "http://android:4723" -n src || true'
                 sh 'curl http://android:4723/status || true'
-                sh 'curl -I http://wiremock:8080/wishlist.apk || true'
+                sh 'curl -f http://wiremock:8080/wishlist.apk -o /tmp/wishlist.apk || true'
+                sh 'ls -lh /tmp/wishlist.apk || true'
 
-                sh 'mvn clean test -Dmaven.test.failure.ignore=true'
+                sh '''
+                    mvn clean test \
+                      -DdatabaseUsername=student \
+                      -DdatabasePassword=student \
+                      -Dmaven.test.failure.ignore=true
+                '''
 
                 sh 'echo "========================="'
                 sh 'echo "ALLURE DEBUG START"'
@@ -45,14 +51,17 @@ pipeline {
 
     post {
         always {
-            archiveArtifacts artifacts: 'allure-results/**', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'allure-results/**, target/allure-results/**', allowEmptyArchive: true
 
             allure([
                 includeProperties: false,
                 jdk: '',
                 properties: [],
                 reportBuildPolicy: 'ALWAYS',
-                results: [[path: 'allure-results']]
+                results: [
+                    [path: 'allure-results'],
+                    [path: 'target/allure-results']
+                ]
             ])
         }
     }
