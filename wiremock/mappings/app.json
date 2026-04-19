@@ -1,11 +1,10 @@
 {
   "request": {
-    "method": "GET",
+    "method": "HEAD",
     "url": "/wishlist.apk"
   },
   "response": {
     "status": 200,
-    "bodyFileName": "wishlist.apk",
     "headers": {
       "Content-Type": "application/octet-stream"
     }
