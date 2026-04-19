@@ -5,9 +5,9 @@ import com.google.inject.Singleton;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
-import ru.otus.emulator.Emulator;
 import ru.otus.emulator.EmulatorProvider;
 import ru.otus.exceptions.DriverInitializationException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
@@ -25,20 +25,22 @@ public class AndroidDriverFactory {
    }
 
    public WebDriver create() {
-      Emulator emulator = emulatorProvider.takeAndGet();
+      emulatorProvider.takeAndGet();
 
       try {
-         AndroidDriver driver =
-               new AndroidDriver(
-                     new URL("http://127.0.0.1:%d".formatted(emulator.getPort())),
-                     capabilities
-               );
+         AndroidDriver driver = new AndroidDriver(
+               new URL("http://android:4723"),
+               capabilities
+         );
 
          driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
          return driver;
       } catch (MalformedURLException e) {
          emulatorProvider.putBack();
          throw new DriverInitializationException("Invalid Appium server URL", e);
+      } catch (Exception e) {
+         emulatorProvider.putBack();
+         throw new DriverInitializationException("Failed to initialize Android driver", e);
       }
    }
 
