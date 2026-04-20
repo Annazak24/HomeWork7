@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.9.4-eclipse-temurin-21'
-            args '--network selenoid1'
-        }
-    }
+    agent any
 
     tools {
         allure 'Allure 2.30'
@@ -17,51 +12,75 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
+        stage('Prepare config') {
             steps {
-                sh 'pwd'
-                sh 'git branch --show-current || true'
-                sh 'grep -R "http://android:4723" -n src || true'
-                sh 'curl http://android:4723/status || true'
-                sh 'curl -f http://wiremock:8080/wishlist.apk -o /tmp/wishlist.apk || true'
-                sh 'ls -lh /tmp/wishlist.apk || true'
+                writeFile file: 'config.yaml', text: params.CONFIG
 
+                script {
+                    env.APPIUM_URL = sh(
+                        script: "grep '^appiumUrl:' config.yaml | cut -d':' -f2- | xargs",
+                        returnStdout: true
+                    ).trim()
+
+                    env.APP_URL = sh(
+                        script: "grep '^app:' config.yaml | cut -d':' -f2- | xargs",
+                        returnStdout: true
+                    ).trim()
+
+                    env.ENVIRONMENT = sh(
+                        script: "grep '^environment:' config.yaml | cut -d':' -f2- | xargs",
+                        returnStdout: true
+                    ).trim()
+
+                    echo "Appium URL: ${env.APPIUM_URL}"
+                    echo "App URL: ${env.APP_URL}"
+                    echo "Environment: ${env.ENVIRONMENT}"
+                }
+            }
+        }
+
+        stage('Run Mobile Tests in Docker') {
+            steps {
                 sh '''
-                    mvn clean test \
-                      -DdatabaseUsername=student \
-                      -DdatabasePassword=student \
-                      -Dmaven.test.failure.ignore=true
-                '''
+                    rm -rf allure-results
+                    mkdir -p allure-results
 
-                sh 'echo "========================="'
-                sh 'echo "ALLURE DEBUG START"'
-                sh 'echo "========================="'
-                sh 'ls -la || true'
-                sh 'ls -la allure-results || true'
-                sh 'find allure-results -type f || true'
-                sh 'ls -la target || true'
-                sh 'ls -la target/allure-results || true'
-                sh 'find target/allure-results -type f || true'
-                sh 'echo "========================="'
-                sh 'echo "ALLURE DEBUG END"'
-                sh 'echo "========================="'
+                    docker build -t mobile-tests .
+
+                    docker run --rm \
+                      --volumes-from jenkins \
+                      -w "$WORKSPACE" \
+                      --network selenoid1 \
+                      mobile-tests \
+                      mvn clean test \
+                        -DappiumUrl="${APPIUM_URL}" \
+                        -Dapp="${APP_URL}" \
+                        -Denvironment="${ENVIRONMENT}" \
+                        -DdatabaseUsername=student \
+                        -DdatabasePassword=student \
+                        -Dmaven.test.failure.ignore=true \
+                        -Dallure.results.directory=allure-results
+
+                    echo "==== ALLURE DEBUG START ===="
+                    ls -la
+                    ls -la allure-results || true
+                    find allure-results -type f || true
+                    echo "==== ALLURE DEBUG END ===="
+                '''
             }
         }
     }
 
     post {
         always {
-            archiveArtifacts artifacts: 'allure-results/**, target/allure-results/**', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'allure-results/**', allowEmptyArchive: true
 
             allure([
                 includeProperties: false,
                 jdk: '',
                 properties: [],
                 reportBuildPolicy: 'ALWAYS',
-                results: [
-                    [path: 'allure-results'],
-                    [path: 'target/allure-results']
-                ]
+                results: [[path: 'allure-results']]
             ])
         }
     }
