@@ -52,7 +52,7 @@ pipeline {
                       -w "$WORKSPACE" \
                       --network selenoid1 \
                       mobile-tests \
-                      mvn clean test \
+                      mvn test \
                         -DappiumUrl="${APPIUM_URL}" \
                         -Dapp="${APP_URL}" \
                         -Denvironment="${ENVIRONMENT}" \
@@ -60,12 +60,6 @@ pipeline {
                         -DdatabasePassword=student \
                         -Dmaven.test.failure.ignore=true \
                         -Dallure.results.directory=allure-results
-
-                    echo "==== ALLURE DEBUG START ===="
-                    ls -la
-                    ls -la allure-results || true
-                    find allure-results -type f || true
-                    echo "==== ALLURE DEBUG END ===="
                 '''
             }
         }

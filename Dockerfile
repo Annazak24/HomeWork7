@@ -1,23 +1,17 @@
-# Use Maven image
 FROM maven:3.9.4-eclipse-temurin-21
 
-# Set environment variables
 ENV THREAD_COUNT=5
 
-# Working directory
 WORKDIR /app
 
-# Copy project files
+COPY pom.xml /app
+RUN mvn -B dependency:go-offline
+
 COPY . /app
 
-# Install dependencies without running tests
-RUN mvn clean install -DskipTests
-
-# Ensure Allure results folder exists
 RUN mkdir -p /app/allure-results
 
-# Default command
-CMD mvn clean test \
+CMD mvn test \
       -DthreadCount=${THREAD_COUNT} \
       -Dmaven.test.failure.ignore=true \
       -Dallure.results.directory=allure-results
