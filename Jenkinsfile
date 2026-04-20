@@ -39,13 +39,19 @@ pipeline {
             }
         }
 
+        stage('Build Docker Image Once If Needed') {
+            steps {
+                sh '''
+                    docker image inspect mobile-tests >/dev/null 2>&1 || docker build -t mobile-tests .
+                '''
+            }
+        }
+
         stage('Run Mobile Tests in Docker') {
             steps {
                 sh '''
                     rm -rf allure-results
                     mkdir -p allure-results
-
-                    docker build -t mobile-tests .
 
                     docker run --rm \
                       --volumes-from jenkins \

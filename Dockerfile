@@ -4,9 +4,6 @@ ENV THREAD_COUNT=5
 
 WORKDIR /app
 
-COPY pom.xml /app
-RUN mvn -B dependency:go-offline
-
 COPY . /app
 
 RUN mkdir -p /app/allure-results
